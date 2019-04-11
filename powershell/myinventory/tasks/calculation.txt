@@ -1,0 +1,32 @@
+$x = Read-Host "enter the number1"
+$y = Read-Host "enter the number2"
+$z= @('add','mul','div','sub','pow','log')
+$n=read-host 'enter the choice'
+
+
+switch($z[$n])
+{
+'add'
+{
+write-host "sum of no."([int]$x+[int]$y)
+}
+
+'mul'{
+write-host "multiply of no."([int]$x*[int]$y)
+}
+'div'{
+write-host "diff of no."([int]$x/[int]$y)
+}
+'sub'{
+write-host "diff of no."([int]$x-[int]$y)
+}
+'pow'{
+write-host "diff of no."([math]::pow($x,$y))
+}
+'log'{
+write-host "log of no."([math]::log($x,$y))
+}
+default
+{
+'no op found'
+} 

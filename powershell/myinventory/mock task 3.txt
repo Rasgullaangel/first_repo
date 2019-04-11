@@ -1,0 +1,23 @@
+
+1.get-content and display it in singleline
+
+(get-content C:\Users\senthilnathanp\Desktop\task.txt)-join " "
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2.get-content and display it in single line in upper case and replace 'o' to 'h'
+
+((get-content C:\Users\senthilnathanp\Desktop\task.txt)-join " ")|%{$_.ToUpper().replace("O","H")}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3.display the years of four taking this as leap year
+
+$a=(get-date)-addyears(-1)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4.freespace ,computername,drive name in the given format:
+
+function Get-DriveInfo($ComputerName){
+ Get-WmiObject -Class win32_logicaldisk -ComputerName $ComputerName |select @{n='ComputerName';e={$ComputerName}},@{n='DriveName';e={$_.deviceid}},@{n='Freespace';e={$_.freespace}}
+} 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+5.service name as service is running or stoppped changes
+
+'127.0.0.1','localhost'|%{ Get-Service -ComputerName $_ |select @{n='ComputerName';e={$_.machinename}},@{n='Activity';e={if($_.status -eq 'Stopped'){"The ServiceName `"$($_.name)`" is `"$($_.status)`" suddenly"}else{"The ServiceName `"$($_.name)`" is `"$($_.status)`" successfully"}}} -First 10 }  
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

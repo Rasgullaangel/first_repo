@@ -1,0 +1,61 @@
+Task 1:
+Take the process list of your computer	and customise the output as customprocessname,processhandles and out the output in csv
+
+$a=get-process
+($a|select @{name='customprocessname';expression={$_.processName}},@{name='processhandler';expression={$_.handles}})|export-csv -Path C:\Users\senthilnathanp\Desktop\TASK\dd.csv -NoTypeInformation
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 2:
+Take processlist in one var and take  servicelist in another var join process list with service list and make it as a new object and export it 
+
+$a=get-service | select -First 5
+$b=get-process | select -First 5
+$c=@()
+$i=0
+foreach($row in $a){
+
+ $d=New-Object -TypeName psobject   
+ Add-Member -InputObject $d  -MemberType NoteProperty -Name 'Handles' -Value $b.handles[$i]  ;
+ Add-Member -InputObject $d  -MemberType NoteProperty -Name 'NPM(K)' -Value $b.NPM[$i]  ;
+ Add-Member -InputObject $d  -MemberType NoteProperty -Name 'PM' -Value $b.PM[$i]  ;
+ Add-Member -InputObject $d  -MemberType NoteProperty -Name 'Status' -Value $row.Status;
+ Add-Member -InputObject $d  -MemberType NoteProperty -Name 'Name' -Value $row.Name;
+ Add-Member -InputObject $d  -MemberType NoteProperty -Name 'DisplayName' -Value $row.Displayname
+  
+  $c += $d
+  $i++
+}
+$c | Format-Table -AutoSize 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 3:
+Get the list of software installed in your computer
+
+$a=Get-StartApps | Export-Csv -path C:\Users\senthilnathanp\Desktop\TASK\ttt.csv -NoTypeInformation
+
+$a = Get-WmiObject -Class win32_product
+$a | Format-Table -autosize 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 4:
+Get the powershell  version info in a csv 
+
+$a=$PSVersionTable
+
+$a|Out-File C:\Users\senthilnathanp\desktop\plg.csv 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 5:
+Print the following string 
+Hello' "How 'Are' You"'
+
+Write-host "Hello'" '"'How" 'Are' you""'"
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 6:
+Get all the files with extension but or some extension inside a drive or folder and create an object with the filename and file created time and export it
+
+$a=Get-ChildItem  -path  C:\users\senthilnathanp\desktop\TASK -file -recurse -include *.txt
+C:\Program Files (x86)> Get-ChildItem -Recurse -Include *.bat* |Out-File C:\Users\senthilnathanp\Desktop\task6.txt
+
+$a=Get-ChildItem  -file -recurse -include *.bat*|export-csv -path C:\Users\senthilnathanp\desktop\task\sad.csv
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

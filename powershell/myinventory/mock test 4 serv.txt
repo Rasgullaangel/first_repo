@@ -1,0 +1,36 @@
+adding service,process 
+method 1;
+$a=get-service|select -First 5
+$b=get-service|select -last 5
+$d=get-process|select processname,@{name='cpu';exp={if($_.cpu -eq ""){"null"}else{$_.cpu}}},Handles -first 5|Format-Table
+$temp=$a+$b
+$t =$temp|select status,name,displayname
+$t += $c|%{
+[pscustomobject]@{
+'status'=$_.processname
+'name'=$_.cpu
+'displayname'=$_.handles 
+}
+} 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+method 2;
+$a=get-service|select -First 5
+$b=get-service|select -Last 5
+$temp=$a +$b
+$c=get-process|select -First 5
+$t=$temp|select status,displayname,name
+$t +=$c|%{
+$temparr=[pscustomobject]@{}
+$temparr|Add-Member -MemberType NoteProperty -Name 'status' -Value $_.processname -PassThru -Force |
+Add-Member -MemberType NoteProperty -Name 'name'-Value $_.handle -PassThru -Force|
+Add-Member -MemberType NoteProperty -Name 'displayname' -Value $_.cpu -PassThru -Force
+}
+$t 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+method 3;
+$a=get-service|select name,status,displayname|select -First 5
+$b=get-service|select name,status,displayname|select -last  5
+$temp=$a+$b
+$c=get-process|select -First 5|select @{n='name';e={$_.ProcessName}},@{n='status';e={if($_.cpu -eq ' '){write-host "null"}}},@{n='displayname';e={$_.handles}}
+$d=$temp+$c
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,140 @@
+fundamental keys 
+******************
+10\10\2018
+
+
+
+section 3 
+1)help (aliasname) or get-alias (aliasname)
+2)New-Alias d -Value Get-ChildItem 
+3)get-help *snapin*
+get-pssnapin 
+4)start-transcript -Path C:\Users\venkatesan_g\Desktop\ee.text
+stop-transcript(open textfile and see all the activities will be captured)
+5)Start-Process calc
+Stop-Process -Name Calculator
+6)$a=Get-Content -Path C:\users\venkatesan_g\Desktop\ee.text 
+$b=$a|select -First 10
+7)get-date -Format dd/MM/yyyy or Get-Date -DisplayHint date
+8)Get-EventLog security -Newest 10
+
+section 4
+1)get-service |gm *
+2)get-process|Out-Default or get-process|Out-gridview or get-process|Out-file -path "---"
+3)Get-Service |Stop-Service -WhatIf
+4)Get-Service |Stop-Service -confirm
+5)Get-Content -Path C:\Users\venkatesan_g\Desktop\ss.txt |Copy-Item -Destination C:\Users\venkatesan_g\Desktop\test
+6)Get-service|gm *
+
+section 5
+1)Get-EventLog -log System 
+2)get-process|Select-Object processName,handles -First 10|Sort-Object handles -Descending or
+get-process|Select -First 10|Sort-Object handles -Descending
+3)Get-Service |Group-Object  status
+4)Get-Service |Measure-Object
+5)get-service |Measure-Object
+6)Get-process|Measure-Object -Property Handles -Minimum -Maximum -Average
+7)Get-EventLog -LogName Application |Select-Object Index, Time ,InstanceId
+
+section 6
+set-executionpolicy remotesigned -scope currentuser -force
+1)Set-ExecutionPolicy Remotesigned
+2)save the notepad file as ee.ps1 with the content "write-host "hi"" run it in powershell 
+PS C:\Users\venkatesan_g\desktop> .\poo.ps1(executionpolicy -remotesigned)
+3) $Cert = "C:\users\venkatesan_g\desktop\abc.text"
+ Set-AuthenticodeSignature -FilePath "C:\users\venkatesan_g\desktop\gg.ps1" -Certificate $Cert
+4)
+5)$a=Get-Credential
+
+section 7
+[note:bestpractices=> Get-WmiObject -list|where name -like win32_"logicaldisk*",then get-wmiobject -class win32_logicaldisk|gm*]
+
+1)a)win32_service
+b)Win32_LogicalDisk 
+c)Win32_NetworkAdapterSetting
+d)Win32_process
+e)Win32_OperatingSystem
+2)Get-WmiObject  -class Win32_logicaldisk 
+3)Get-WmiObject  -class Win32_logicaldisk |Sort-Object drivetype
+4)Get-WmiObject -class win32_service -Filter "state='Running'" or $a=Get-WmiObject -class win32_service
+$b=$a|?{$_.state -eq 'running'} or $a=Get-WmiObject -class win32_service|?{$_.state -eq 'running'}
+5)$a=Get-WmiObject -class win32_service|?{$_.state -eq 'running'}|select -Property startmode,name
+6) Get-WmiObject -Class win32_logicaldisk or Get-WmiObject -Query "SELECT *from win32_logicaldisk  Where drivetype=3"
+7)Get-WmiObject win32_operatingsystem -Property buildnumber,version  or Get-WmiObject -query "SELECT buildnumber,version from win32_operatingsystem" 
+
+
+section 8
+1)Get-Process|sort-object processname 
+2)Get-WmiObject -Class win32_service|where{$_.startmode -eq 'auto'-and $_.state -eq 'stopped'} |Select-Object name,startmode,state
+3)Get-WmiObject -Class win32_service|where{$_.startmode -eq 'auto'-and $_.state -eq 'stopped'} |Select-Object name,startmode,state-html|convertto-html
+|out-file -filepath ".html"(create) or
+Get-­-WMIObject	  Win32_Service	  |	  Where-­-Object	  `	  	  {	  $_.StartMode	  –eq	  "Auto"	  –and	  $_.State	  –ne	  "Running"	  }	  |	  `	  	  ConvertTo-­-HTML	  |	  Out-­-File	  C:\Test\NotRunning.html
+4)Get-WmiObject -Class win32_process |?{$_.processname -eq 'notepad'}|ForEach-Object{$_.Terminate()} -WhatIf
+5)get-content C:\Users\venkatesan_g\Desktop\jj.txt|foreach-object{Get-WmiObject -Class win32_logicaldisk -ComputerName  $_}
+
+section 10
+1)Get-process|gm *
+2)Get-process|Select-Object processname,ID,Responding|Sort-Object processname -Descending
+3)Get-process|?{$_.Responding -eq  'true'}|Select-Object processname,ID,Responding|Sort-Object processname -Descending|Format-Table -AutoSize
+get-service |?{$_.status -eq 'Running'}|select-object DisplayName|Format-List *
+4)get-process|format-list *
+5)Read-Host "name"|Write-Host -fore red -back black
+6)write-host (5+5) ,5+5
+7)write-Host 5+5 -ForegroundColor Yellow
+
+section 12
+1)"gayathri" |gm *
+2)$var="12345"|gm *
+3)$var="HELLO WORLD"
+$var.startswith("H")
+4)$arr=@('one','two','three')
+foreach($a in  $arr){
+if($a.Length -lt 4){
+ Write-host $a -ForegroundColor DarkGreen
+}
+}
+5)$var1='Hello world.'
+$var2="I say,$var1"
+$var2
+
+section 13
+[note:set-executionpolicy remotesigned currentuser -force -verbose]
+save a file in different psfile and it 
+1)C:\Users\venkatesan_g\desktop> .\poo.ps1
+
+section 14
+1)$a -like 'exec'
+2)Get-ChildItem -recurse|?{$_.name -like  "*txt*"}|Select-Object lastwritetime,name
+3)Get-ChildItem -recurse |?{$_.NAME -like "*txt" -and $_.length -lt '200'}
+4)Get-ChildItem -recurse |?{$_.length -gt '102400'}
+
+section 15
+1)$events=Get-EventLog -LogName Application -Newest 50foreach($event in $events){	switch($event.category){	  "(0)"	  {	  $color= "Green"	  }	  "(101)"	  {	  $color= "Yellow"	  }	  "(103)"	  {	  $color= "Red"	  }	  default	  {	  $color= "White"	  }	  }	  Write-Host $event.Timewritten -ForegroundColor $color	  }
+
+section 16
+1)function get-osbuild($a){
+Get-WmiObject win32_operatingsystem -computername $a -Property buildnumber
+}
+get-osbuild("LP-5CD7465HMS")
+
+or
+
+function get-osbuild{
+param($computer)
+Get-WmiObject win32_operatingsystem -computername $computer -Property buildnumber
+}
+get-osbuild localhost
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+

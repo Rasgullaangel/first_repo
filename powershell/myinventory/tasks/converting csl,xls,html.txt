@@ -1,0 +1,45 @@
+Task 10:
+Convert Csv to Excel 
+
+$a=get-content C:\Users\venkatesan_g\Desktop\pl.csv
+$a | out-file C:\Users\venkatesan_g\Desktop\ps.xls 
+
+Convert Excel to Csv
+
+$a=get-content C:\Users\venkatesan_g\Desktop\ps.xls
+$b=$a|ConvertTo-csv |out-file C:\Users\venkatesan_g\Desktop\pl.csv
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 11:
+Convert the file with different format using functions 
+
+
+function convert{
+
+$n=Read-host "enter the file u want to convert "
+$j=get-content $n
+$f=Read-host "enter the choice"
+  
+Switch($f){
+       '1'{
+       $a=$n|Out-File C:\Users\venkatesan_g\desktop\hh.csv ;
+       $a
+         }
+       '2'{
+       $b=$n|ConvertTo-Xml|out-file C:\Users\venkatesan_g\desktop\hh.xml;
+       $b
+        }
+        '3'{
+       $c=$n|ConvertTo-Html|out-file C:\Users\venkatesan_g\desktop\hh.html;
+       $c
+        }
+        'default'
+        {
+        'no such convertions available at present';
+
+        }
+  }
+  }
+  convert ($j) 
+
+

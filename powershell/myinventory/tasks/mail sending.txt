@@ -1,0 +1,21 @@
+Task 8:
+mail sending-send an email with the details of get-service in html using powershell com object from ur frnds email to ur email  
+
+$a= Get-service | select -first 5 
+$b=[pscustomobject]$a
+$c=$b| ConvertTo-Html| Format-Table -AutoSize
+$d = $c|Out-File -filePath C:\Users\senthilnathanp\desktop\email.html 
+
+$a= Get-Service | select -first 5 
+$b=[pscustomobject]$a
+$c=$b| ConvertTo-Html| Format-Table -AutoSize
+$d = $c|Out-File -filePath C:\Users\senthilnathanp\desktop\email.html 
+$ou = New-Object -ComObject outlook.application
+$ma = $ou.CreateItem(0)
+$ma.to = "lathika.v@hcl.com"
+$ma.subject = "html file"
+$ma.body = "new file "
+$f = "C:/Users/senthilnathanp/Desktop/email.html" 
+$att = New-Object System.Net.Mail.Attachment $f
+$ma.attachments.add($f)
+$ma.send()

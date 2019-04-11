@@ -1,0 +1,70 @@
+command to convert an html
+Get-Command *html*
+ConvertTo-Html
+
+transcrit
+Start-Transcript
+Stop-Transcript
+
+create Html page of service
+$a=Get-Service
+$a|convertTO-Html|out-file -filepath C:\Users\senthilnathanp\Desktop\ser.html
+
+export to csv report of process
+Get-Process | Export-Csv -Path C:\Users\senthilnathanp\Desktop\process.csv -NoTypeInformation 
+
+array of server (if ,else if,else)
+$a=@()
+$b=@()
+$c=@()
+$d=@()
+$a ="serverprod1","serverdev1","servertest1","serverprod2","serverdev2","servertest2","serverprod3","serverdev3","servertest3"
+foreach($z in $a){
+if($z -like '*prod*')
+{
+$b+=$z 
+}
+elseif($z -like '*dev*')
+{
+$c+=$z
+}
+elseif($z -like '*test*')
+{
+$d+=$z
+}}
+if($b.count -gt 0){
+$obj = $b | Select-Object @{name = 'productserver';expression={$_}}
+$obj | Export-Csv -Path C:\Users\senthilnathanp\Desktop\b.csv -NoTypeInformation
+}
+if($c.count -gt 0){
+$obj = $c | Select-Object @{name = 'productdev';expression={$_}}
+}
+
+calucaltion:
+$a=read-host "enter the input"
+[int]$b=Read-Host "enter the number"
+[int]$c=read-host "enter the number"
+switch($a){
+0{
+    $d=$b+$c
+    write-host "THE SUM OF NUMBERS:"$d
+    }
+
+1{
+    $d=$b-$c
+    write-host "THE DIFFERENCE OF NUMBERS:"$d
+    }
+2{
+    $d=$bf*$c
+    write-host "THE PRODUCT OF NUMBERS:"$d
+    }
+3{
+   default
+    write-host "INVALID NUMBERS"
+    }
+
+
+
+
+
+}

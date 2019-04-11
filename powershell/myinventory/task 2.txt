@@ -1,0 +1,47 @@
+#1 disk space name:
+$a=Get-WMIObject Win32_Logicaldisk -Filter "deviceid='C:'"
+Get-WmiObject -Class win32_logicaldisk|select pscomputername,name,size,filesystem 
+----------------------------------------------------------------------------------------------------------------------------------------
+#2 memory utilizing process
+$b=Get-wmiobject WIN32_process|sort-object -Property virtualsize -Descending|Select-Object -First 5 name,virtualsize,processid
+------------------------------------------------------------------------------------------------------------------------------------------
+#3 memory utilizing service
+$a= Get-WmiObject -class win32_process -namespace root/cimv2 | Sort virtualsize -Descending|select Processid,Name,@{n='Memory Consumed (GB)';e={$_.virtualsize/1gb}} -First 50
+$count1=0
+$z=get-wmiobject -class win32_service | ?{$_.processid -ne '0'}
+$count=$z.count
+$y=$z | %{for($i=0;$i -lt $count;$i++)
+                                {if($_.processid -eq $a.processid[$i])
+                                     { $_.name}
+                                     } } 
+$ans=$y|select -first 5       
+---------------------------------------------------------------------------------------------------------------------------------------
+#4 large file in a computer
+$c=Get-wmiobject -Query "ASSOCIATORS OF {win32_directory.name='C:\Users\senthilnathanp\Desktop'} where resultclass=CIM_datafile" |select-object filesize,filename,extension|Sort-Object -Property filesize -Descending|Select -First 5
+--------------------------------------------------------------------------------------------------------------------------------------
+#5 last created file in c
+$d=Get-wmiobject -Query "ASSOCIATORS OF {win32_directory.name='C:\Users\senthilnathanp\Desktop'} where resultclass=CIM_datafile" |select-object creationdate,filename,extension|Sort-Object -Property creationdate -Descending|Select -First 5
+-------------------------------------------------------------------------------------------------------------------------------------
+#6 networkadapter service name
+$n = (Get-WmiObject Win32_Networkadapter).servicename 
+---------------------------------------------------------------------------------------------------------------------------------------
+#7 hash table 
+$a = Get-wmiobject win32_process | Sort-Object -Descending vm | select caption, @{n = 'memory' ; e = {$_.vm/1gb}} -First 5
+$s = (Get-wmiobject win32_service | Sort-Object -Descending ws | select -First 5)
+$n= (Get-WmiObject Win32_Networkadapter).servicename | select -First 5
+$w = Get-wmiobject -Query "ASSOCIATORS OF {Win32_Directory.Name='C:\Users\senthilnathanp'} Where ResultClass = CIM_DataFile" | Select-Object filename,extension,@{n='date';e= {$_.converttodatetime($_.creationdate)}} |Sort-Object -Property creationdate -Descending | select -First 5
+$l = Get-wmiobject -Query "ASSOCIATORS OF {Win32_Directory.Name='C:\Users\senthilnathanp\desktop'} Where ResultClass = CIM_DataFile" |Select filesize,filename,extension|sort-object -Property filesize -Descending|select -First 5
+$O = @()
+$i=0
+foreach($row in $a) {
+$d = New-Object PSObject;
+ 
+       $d | Add-Member NoteProperty "processname" $row.caption; 
+       $d | Add-Member NoteProperty "servicename" $s.Name[$i]; 
+       $d | Add-Member NoteProperty "networkname" $n[$i];
+       $d | Add-Member NoteProperty "name" $w.filename[$i]; 
+       $d | Add-Member NoteProperty "file" $l.filename[$i]; 
+       $o += $d
+    $i++
+     }
+$o | Format-Table -AutoSize 

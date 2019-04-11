@@ -1,0 +1,117 @@
+hghTask 7:
+Tee object
+
+get-service|select -first 5|Tee-Object -file C:\Users\senthilnathanp\desktop\task\ss.csv  |out-file C:\Users\senthilnathanp\desktop\task\ssc.xls |select status
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 8:
+mail sending-send an email with the details of get-service in html using powershell com object from ur frnds email to ur email  
+
+$a= Get-Service | select -first 5 
+$b=[pscustomobject]$a
+$c=$b| ConvertTo-Html| Format-Table -AutoSize
+$d = $c|Out-File -filePath C:\Users\senthilnathanp\desktop\email.html 
+
+$a= Get-Service | select -first 5 
+$b=[pscustomobject]$a
+$c=$b| ConvertTo-Html| Format-Table -AutoSize
+$d = $c|Out-File -filePath C:\Users\senthilnathanp\desktop\email.html 
+$ou = New-Object -ComObject outlook.application
+$ma = $ou.CreateItem(0)
+$ma.to = "lathika.v@hcl.com"
+$ma.subject = "html file"
+$ma.body = "new file "
+$f = "C:/Users/senthilnathanp/Desktop/email.html" 
+$att = New-Object System.Net.Mail.Attachment $f
+$ma.attachments.add($f)
+$ma.send()
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 9:
+Synthetic automation
+
+$n=New-Object -ComObject internetexplorer.application
+$n.Navigate('google.com')
+$n.Visible = $true
+while($n.Busy){
+Start-Sleep -Seconds 2}
+$n.Document.getElementById('lst-ib').value=('course era')
+$n.document.forms[0].submit()
+while($n.Busy){
+Start-Sleep -Seconds 2}
+
+$a=$n.Document.getElementSBytagname('a')|?{$_.textcontent -eq 'Coursera | Online Courses & Credentials by Top Educators. Join for Free'}
+$a.click()
+while($n.Busy){
+Start-Sleep -Seconds 2}
+$b=$n.Document.getElementSBytagname('a')|?{$_.textcontent -eq 'log in'}
+$b.click()
+$n.Document.getElementById('emailInput-input').value='gayathri9042@gmail.com'
+$n.Document.getElementById('passwordInput-input').value='Jesus@123'
+$g=$n.Document.getElementsbytagname('span') |? {$_.classname -eq 'Box_120drhm-o_O-centerJustify_1nezfbd-o_O-centerAlign_19zvu2s-o_O-displayflex_poyjc'}
+$g.click()
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 10:
+Convert Csv to Excel 
+
+$a=get-content C:\Users\senthilnathanp\Desktop\pl.csv
+$a | out-file C:\Users\senthilnathanp\Desktop\ps.xls 
+
+Convert Excel to Csv
+
+$a=get-content C:\Users\senthilnathanp\Desktop\ps.xls
+$b=$a|ConvertTo-csv |out-file C:\Users\senthilnathanp\Desktop\pl.csv
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 11:
+Convert the file with different format using functions 
+
+
+function convert{
+
+$n=Read-host "enter the file u want to convert "
+$j=get-content $n
+$f=Read-host "enter the choice"
+  
+Switch($f){
+       '1'{
+       $a=$n|Out-File C:\Users\senthilnathanp\desktop\hh.csv ;
+       $a
+         }
+       '2'{
+       $b=$n|ConvertTo-Xml|out-file C:\Users\senthilnathanp\desktop\hh.xml;
+       $b
+        }
+        '3'{
+       $c=$n|ConvertTo-Html|out-file C:\Users\senthilnathanp\desktop\hh.html;
+       $c
+        }
+        'default'
+        {
+        'no such convertions available at present';
+
+        }
+  }
+  }
+  convert ($j) 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Task 12:
+Arrange your scripts into respective dated folders using script.And move all this file to different folder.And finally rename the folder as 'MyInventory'
+
+New-Item -ItemType directory -Path C:\Users\senthilnathanp\Desktop
+
+Move-Item C:\Users\senthilnathanp\Documents\tasks  -Destination C:\Users\senthilnathanp\desktop\myinventory 
+Get-ChildItem -path C:\Users\senthilnathanp\desktop\myinventory\tasks |sort-object -property @{expression='lastwritetime';descending= $false}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+

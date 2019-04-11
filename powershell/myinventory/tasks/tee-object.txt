@@ -1,0 +1,5 @@
+Task 7:
+Tee object
+
+get-service|select -first 5|Tee-Object -file C:\Users\senthilnathanp\desktop\task\ss.csv  |out-file C:\Users\senthilnathanp\desktop\task\ssc.xls |select status
+----------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,23 @@
+Task 9:
+Synthetic automation
+
+$n=New-Object -ComObject internetexplorer.application
+$n.Navigate('google.com')
+$n.Visible = $true
+while($n.Busy){
+Start-Sleep -Seconds 2}
+$n.Document.getElementById('lst-ib').value=('course era')
+$n.document.forms[0].submit()
+while($n.Busy){
+Start-Sleep -Seconds 2}
+
+$a=$n.Document.getElementSBytagname('a')|?{$_.textcontent -eq 'Coursera | Online Courses & Credentials by Top Educators. Join for Free'}
+$a.click()
+while($n.Busy){
+Start-Sleep -Seconds 2}
+$b=$n.Document.getElementSBytagname('a')|?{$_.textcontent -eq 'log in'}
+$b.click()
+$n.Document.getElementById('emailInput-input').value='gayathri9042@gmail.com'
+$n.Document.getElementById('passwordInput-input').value='Jesus@123'
+$g=$n.Document.getElementsbytagname('span') |? {$_.classname -eq 'Box_120drhm-o_O-centerJustify_1nezfbd-o_O-centerAlign_19zvu2s-o_O-displayflex_poyjc'}
+$g.click()

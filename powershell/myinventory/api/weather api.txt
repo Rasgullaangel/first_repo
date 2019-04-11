@@ -1,0 +1,1 @@
+Invoke-WebRequest -Method Get -Uri 'api.openweathermap.org/data/2.5/weather?q=chennai,in&APPID=8c09707d250d7ad900b1c6f44d5bddcd'
